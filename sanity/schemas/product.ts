@@ -9,8 +9,8 @@ export default {
             type: 'string',
         },
         {
-            name: 'slug',
-            title: 'Slug',
+            name: 'productId',
+            title: 'Product ID',
             type: 'slug',
             options: { 
                 source: 'title',
@@ -19,20 +19,12 @@ export default {
         {
             name: 'description',
             title: 'Description',
-            type: 'string',
+            type: 'text',
         },
         {
             name: 'price',
             title: 'Price',
             type: 'number',
-        },
-        {
-            name: 'cover_image',
-            title: 'Image',
-            type: 'image',
-            options: {
-                hotspot: true,
-            },
         },
         {
             name: 'category',
