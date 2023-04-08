@@ -4,6 +4,7 @@ import { CssBaseline } from "@mui/material";
 import "@fontsource/signika";
 import { Provider } from "react-redux";
 import store from "../app/store";
+import '../index.css'
 
 function MyApp({ Component, pageProps }) {
   const theme = createTheme({
