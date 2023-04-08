@@ -1,17 +1,52 @@
 import { Typography, Box, CircularProgress } from "@mui/material";
+import { useEffect } from "react";
+import client, { urlFor } from "../../client";
 import ProductCard from "../../components/ProductCard";
 import useFetch from "../../hooks/useFetch";
 import formatImageUrl from "../../utils/formatImageUrl";
+import { useState } from "react";
 
-const Category = ({ productCategoryId, baseUrl }) => {
-  const { data, loading, error } = useFetch(
-    `${baseUrl}/api/categories?populate[products][populate][0]=images&filters[name][$eq]=${productCategoryId}`,
-    productCategoryId
-  );
+const Category = ({ productCategoryId }) => {
 
-  let products;
 
-  if (data) products = data[0];
+  // console.log(productCategoryId, 'productCategoryId')
+
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    (
+      async () => {
+        try {
+          setLoading(true)
+          const categoriesArr = await client.fetch(`*[_type == 'category']{
+            title,
+            _id,
+          }`)
+          const categoryId = categoriesArr.find(category => category.title == productCategoryId)._id
+          const productsArr = await client.fetch(`*[_type == 'product' && category._ref == '${categoryId}' ]{
+            title,
+            description,
+            price,
+            images,
+            productId,
+            category->{
+              title,
+            }
+          }`)
+          console.log(productsArr, 'productsArrrr')
+          setProducts(productsArr)
+        } catch (error) {
+          console.log(error)
+          setError(error?.message || error)
+        } finally {
+          setLoading(false)
+        }
+      }
+    )()
+  }, [])
+
 
   if (loading) {
     return (
@@ -29,6 +64,8 @@ const Category = ({ productCategoryId, baseUrl }) => {
     );
   }
 
+  console.log(error, 'errrorrrr')
+
   if (error) {
     <Typography sx={{ color: "danger.main" }}>Error Occurred...</Typography>;
   }
@@ -36,20 +73,15 @@ const Category = ({ productCategoryId, baseUrl }) => {
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
-        {products.attributes.products.data.map(
-          ({ id, attributes: { title, price, images } }) => {
-            return (
-              <ProductCard
-                img_url={formatImageUrl(baseUrl, images.data[0].attributes.url)}
-                title={title}
-                price={price}
-                productId={id}
-                categoryId={products.attributes.name}
-                key={id}
-              />
-            );
-          }
-        )}
+        {
+          products?.map(
+            ({ productId, title, price, images }) => {
+              return <ProductCard
+                img_url={urlFor(images[0].asset).url()}
+                title={title} price={price} productId={productId?.current} categoryId={productCategoryId} key={productId} />
+            }
+          )
+        }
       </Box>
     </>
   );
@@ -61,7 +93,6 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       productCategoryId: params.productCategoryId,
-      baseUrl: process.env.BASE_URL,
     },
   };
 };
