@@ -1,30 +1,30 @@
 import { useState, useEffect } from "react";
+import client from '../client'
 
-const useFetch = (url, dependency) => {
-  const [data, setData] = useState();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+const useFetch = (query, dependencies) => {
+    const [data, setData] = useState();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        setData(data.data);
-        setLoading(false);
-      } catch {
-        setError(true);
-        setLoading(false);
-      }
-    })();
-  }, [dependency]);
+    useEffect(() => {
+        setError('')
+        console.log(query)
+        setLoading(true)
+        client.fetch(query).then((data) => {
+            setData(data)
+        }).catch((err) => {
+            console.log(err, 'errrr')
+            setError(err?.message || err)
+        }).finally(
+            () => setLoading(false)
+        )
+    }, [...dependencies]);
 
-  return {
-    data,
-    loading,
-    error,
-  };
+    return {
+        data,
+        loading,
+        error,
+    };
 };
 
 export default useFetch;
