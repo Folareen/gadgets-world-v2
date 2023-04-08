@@ -25,7 +25,7 @@ const TrendingProducts = ({ trendingProducts }) => {
                             ({ productId, title, price, images }) => {
                                 return <ProductCard 
                                 img_url={urlFor(images[0].asset).url()} 
-                                title={title} price={price} productId={productId.current} categoryId={'laptops'} key={productId?.current} />
+                                title={title} price={price} productId={productId?.current} categoryId={'laptops'} key={productId?.current} />
                             }
                         )
                     }
