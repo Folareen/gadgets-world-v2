@@ -45,7 +45,7 @@ const Category = ({ productCategoryId }) => {
         }
       }
     )()
-  }, [])
+  }, [productCategoryId])
 
 
   if (loading) {
