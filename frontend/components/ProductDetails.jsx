@@ -1,23 +1,23 @@
 import { Box, Typography } from "@mui/material"
 import Order from "./Order"
 
-const ProductDetails = ({productDetails: {title, description, price}, image, productId}) => {
+const ProductDetails = ({productDetails}) => {
   return (
     <Box sx={{flex: 1, p: 2}}>
 
         <Typography sx={{color: 'primary.main', fontSize: 24, mb: {sm: 4, xs: 2}, textTransform: 'capitalize', fontWeight: 'bold'}}>
-            {title}
+            {productDetails?.title}
         </Typography >
 
         <Typography sx={{color: 'dark.main', fontSize: {md: 18, xs: 16}, mb: {sm: 4, xs: 2}}}>
-            {description}
+            {productDetails?.description}
         </Typography>
 
         <Typography sx={{color: 'primary.main', fontSize: 24, mb: {sm: 4, xs: 2}}}>
-            ${price}
+            ${productDetails?.price}
         </Typography>
 
-        <Order title={title} price={price} image={image} productId={productId} showBuyNow={true} />
+        <Order title={productDetails?.title} price={productDetails?.price} image={productDetails?.image} productId={productDetails?.productId?.current} showBuyNow={true} />
     </Box>
   )
 }

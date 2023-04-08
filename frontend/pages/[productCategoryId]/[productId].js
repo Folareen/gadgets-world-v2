@@ -115,7 +115,7 @@ const Product = () => {
             /> */}
             <ProductDetails
               productDetails={data[0]}
-              image={urlFor(data[0].images[0].asset).url()}
+              image={data[0]?.images[0]?.asset && urlFor(data[0]?.images[0]?.asset)?.url()}
               productId={productId}
             />
           </Box>
