@@ -31,11 +31,9 @@ const MobileMenu = ({setShowMobileMenu, showMobileMenu}) => (
     <Box sx={{mt: 2}}>
       {linkItems.map((item) => (
         <Link href={`/${item}`} key={item} >
-          <a>
           <Typography sx={{ p: 1, "&:hover": { cursor: "pointer" }, textTransform: 'capitalize', fontSize: 18, my: 0.5 }} onClick={() => setShowMobileMenu(false)}>
             {item === 'about-us' ? 'about us': item}
           </Typography>
-          </a>
         </Link>
       ))}
     </Box>

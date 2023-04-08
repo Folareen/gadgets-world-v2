@@ -70,20 +70,17 @@ const Header = () => {
         </IconButton>
 
         <Link href="/">
-          <a>
           <Typography
             component="h1"
             sx={{ "&:hover": { cursor: "pointer" }, color: "logo.main", fontSize: {xs: 18, sm: 20}, fontWeight: 'bold',letterSpacing: 1.3, lineHeight: 1, fontFamily: 'kanit' }}
           >
             Gadgets World
           </Typography>
-          </a>
         </Link>
 
         <Box sx={{ display: { xs: "none", sm: "flex" } }}>
           {linkItems.map((item) => (
             <Link href={`/${item}`} key={item}>
-              <a>
               <Typography
                 sx={{
                   color: isActive(item, (productCategoryId || router.pathname))
@@ -98,7 +95,6 @@ const Header = () => {
               >
                 {item === 'about-us'? 'about us': item}
               </Typography>
-              </a>
             </Link>
           ))}
         </Box>

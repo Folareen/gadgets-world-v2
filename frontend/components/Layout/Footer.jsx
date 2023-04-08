@@ -28,11 +28,9 @@ const Footer = () => {
           <Typography sx={{ color: 'light.main' }}>
             Built by
             <Link href="https://twitter.com/_folareen_" sx={{ ml: 0.5, color: 'secondary.main', textDecoration: 'underline' }}>
-              <a>
                 <span>
                   Folareen
                 </span>
-              </a>
             </Link>
           </Typography>
         </Box>

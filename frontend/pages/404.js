@@ -31,7 +31,6 @@ const NotFound = () => {
           404...Page not found.
         </Typography>
         <Link href="/">
-          <a>
           <Button
             sx={{
               my: 2,
@@ -42,7 +41,6 @@ const NotFound = () => {
             <Typography>Go Home</Typography>
             <HomeRoundedIcon fontSize="small" sx={{ ml: 1 }} />
           </Button>
-          </a>
         </Link>
       </Box>
     </Box>
