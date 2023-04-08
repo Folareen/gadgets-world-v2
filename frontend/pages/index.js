@@ -2,12 +2,13 @@ import { Box } from "@mui/material";
 import BottomBanner from "../components/BottomBanner";
 import TopBanner from "../components/TopBanner";
 import TrendingProducts from "../components/TrendingProducts";
+import client from "../client";
 
-const Home = ({ trendingProducts, baseUrl }) => {
+const Home = ({ trendingProducts }) => {
   return (
     <Box sx={{ pb: 2 }}>
       <TopBanner />
-      <TrendingProducts trendingProducts={trendingProducts} baseUrl={baseUrl} />
+      <TrendingProducts trendingProducts={trendingProducts} />
       <BottomBanner />
     </Box>
   );
@@ -16,17 +17,23 @@ const Home = ({ trendingProducts, baseUrl }) => {
 export default Home;
 
 export const getServerSideProps = async () => {
-  
-  console.log(`${process.env.BASE_URL}/api/categories?populate[products][populate][0]=images`, 'url!!!')
-  const response = await fetch(
-    `${process.env.BASE_URL}/api/categories?populate[products][populate][0]=images`
-  );
-  const data = await response.json();
+
+  const products = await client.fetch(`*[_type == 'product']{
+    title,
+    description,
+    price,
+    images,
+    productId,
+    category->{
+      title,
+    }
+  }`)
+
+  console.log(products)
 
   return {
     props: {
-      trendingProducts: data.data,
-      baseUrl: process.env.BASE_URL,
+      trendingProducts: products,
     },
   };
 };
