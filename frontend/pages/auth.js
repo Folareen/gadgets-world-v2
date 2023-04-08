@@ -68,9 +68,7 @@ const Auth = () => {
                 "&:hover": { textDecoration: "underline", cursor: "pointer" },
               }}
             >
-              <a>
               {hasAccount ? "Signup" : "Login"}
-              </a>
             </Link>
           </Container>
         </Box>
