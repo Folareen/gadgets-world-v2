@@ -10,7 +10,7 @@ import { urlFor } from "../../client";
 
 const Product = () => {
   const {
-    query: { productId},
+    query: { productId },
     back,
   } = useRouter();
   console.log(productId, 'productIdddd')
@@ -62,7 +62,7 @@ const Product = () => {
     [productId]
   );
 
-  console.log(data, 'datataaaaaaaaat')
+  // console.log(data[0]?.images, 'datataaaaaaaaat')
 
   if (loading) {
     return (
@@ -109,10 +109,14 @@ const Product = () => {
               flexDirection: { xs: "column", md: "row" },
             }}
           >
-            {/* <ProductGallery
-              images={data.attributes.images.data}
-              baseUrl={baseUrl}
-            /> */}
+
+            {
+              data[0]?.images &&
+              <ProductGallery
+                images={data[0]?.images}
+              />
+            }
+
             <ProductDetails
               productDetails={data[0]}
               image={data[0]?.images[0]?.asset && urlFor(data[0]?.images[0]?.asset)?.url()}

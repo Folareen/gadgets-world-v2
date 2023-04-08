@@ -1,9 +1,12 @@
 import { Box } from "@mui/material"
 import { useState } from "react"
+import { urlFor } from "../client"
 import formatImageUrl from "../utils/formatImageUrl"
 
-const ProductGallery = ({images, baseUrl}) => {
-    const [imageInView, setImageInView] = useState(formatImageUrl(baseUrl, images[0].attributes.url))
+const ProductGallery = ({images}) => {
+    const [imageInView, setImageInView] = useState(images && urlFor(images[0]?.asset)?.url())
+
+    console.log(images)
 
   return (
     <Box sx={{ p: 2, width: {sx: '100%', md: '500px'}}}>
@@ -15,15 +18,15 @@ const ProductGallery = ({images, baseUrl}) => {
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', maxWidth: '400px', mx: 'auto'}}>
             {
                 images.map(
-                    ({attributes:{url}}) => {
+                    (image, index) => {
                         return (
-                            <Box onClick={() => setImageInView(formatImageUrl(baseUrl, url))} key={url} sx={{width: {xs: '70px', md: '80px'}, height: {xs: '70px', md: '80px'}, borderRadius: 2, opacity: (
-                                formatImageUrl(baseUrl, url) === imageInView ? 1 : 0.6
+                            <Box onClick={() => setImageInView(urlFor(image?.asset && image?.asset)?.url())} key={urlFor(image?.asset && image?.asset)?.url()} sx={{width: {xs: '70px', md: '80px'}, height: {xs: '70px', md: '80px'}, borderRadius: 2, opacity: (
+                               urlFor(image?.asset)?.url() === imageInView ? 1 : 0.6
                             ), '&:hover': {
                                 cursor: 'pointer', opacity: 1
                             }}}>
 
-                                <img src={formatImageUrl(baseUrl, url)} style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit'}}  />
+                                <img src={urlFor(image?.asset)?.url()} style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit'}}  />
                             </Box>
                         )
                     }
