@@ -5,17 +5,64 @@ import ProductDetails from "../../components/ProductDetails";
 import SuggestedProducts from "../../components/SuggestedProducts";
 import useFetch from "../../hooks/useFetch";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import { useEffect } from "react";
+import { urlFor } from "../../client";
 
-const Product = ({ baseUrl }) => {
+const Product = () => {
   const {
-    query: { productId, productCategoryId },
+    query: { productId},
     back,
   } = useRouter();
+  console.log(productId, 'productIdddd')
+
+  // useEffect(() => {
+  //   (
+  //     async () => {
+  //       try {
+  //         setLoading(true)
+  //         const categoriesArr = await client.fetch(`*[_type == 'category']{
+  //           title,
+  //           _id,
+  //         }`)
+  //         const categoryId = categoriesArr.find(category => category.title == productCategoryId)._id
+  //         const productsArr = await client.fetch(`*[_type == 'product' && category._ref == '${categoryId}' ]{
+  //           title,
+  //           description,
+  //           price,
+  //           images,
+  //           productId,
+  //           category->{
+  //             title,
+  //           }
+  //         }`)
+  //         console.log(productsArr)
+  //         setProducts(productsArr)
+  //       } catch (error) {
+  //         console.log(error)
+  //         setError(error?.message || error)
+  //       } finally {
+  //         setLoading(false)
+  //       }
+  //     }
+  //   )()
+  // }, [])
+
 
   const { data, loading, error } = useFetch(
-    `${baseUrl}/api/products/${productId}?populate=*`,
-    productId
+    `*[_type == 'product' && productId.current == '${productId}' ]{
+            title,
+            description,
+            price,
+            images,
+            productId,
+            category->{
+              title,
+            }
+          }`,
+    [productId]
   );
+
+  console.log(data, 'datataaaaaaaaat')
 
   if (loading) {
     return (
@@ -62,13 +109,13 @@ const Product = ({ baseUrl }) => {
               flexDirection: { xs: "column", md: "row" },
             }}
           >
-            <ProductGallery
+            {/* <ProductGallery
               images={data.attributes.images.data}
               baseUrl={baseUrl}
-            />
+            /> */}
             <ProductDetails
-              productDetails={data.attributes}
-              image={data.attributes.images.data[0].attributes.url}
+              productDetails={data[0]}
+              image={urlFor(data[0].images[0].asset).url()}
               productId={productId}
             />
           </Box>
@@ -83,23 +130,23 @@ const Product = ({ baseUrl }) => {
           >
             You may like
           </Typography>
-          <SuggestedProducts
+          {/* <SuggestedProducts
             productCategoryId={productCategoryId}
             productId={productId}
             baseUrl={baseUrl}
-          />
+          /> */}
         </>
       )}
     </>
   );
 };
 
-export default Product;
+export default Product
 
-export const getServerSideProps = async () => {
-  return {
-    props: {
-      baseUrl: process.env.BASE_URL,
-    },
-  };
-};
+// export const getStaticProps = async ({ params }) => {
+//   return {
+//     props: {
+//       productId: params.productId,
+//     },
+//   };
+// };
