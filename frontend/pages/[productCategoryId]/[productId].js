@@ -10,7 +10,7 @@ import { urlFor } from "../../client";
 
 const Product = () => {
   const {
-    query: { productId },
+    query: { productId, productCategoryId },
     back,
   } = useRouter();
   console.log(productId, 'productIdddd')
@@ -134,11 +134,10 @@ const Product = () => {
           >
             You may like
           </Typography>
-          {/* <SuggestedProducts
+          <SuggestedProducts
             productCategoryId={productCategoryId}
             productId={productId}
-            baseUrl={baseUrl}
-          /> */}
+          />
         </>
       )}
     </>

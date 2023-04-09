@@ -1,22 +1,48 @@
 import { Box, Typography, CircularProgress } from "@mui/material"
+import { useEffect, useState } from "react";
+import client, { urlFor } from "../client";
 import useFetch from "../hooks/useFetch"
 import formatImageUrl from "../utils/formatImageUrl";
 import ProductCard from "./ProductCard";
 
-const SuggestedProducts = ({productCategoryId, productId, baseUrl}) => {
-  const { data, loading, error } = useFetch(
-    `${baseUrl}/api/categories?populate[products][populate][0]=images&filters[name][$eq]=${productCategoryId}`,
-    productCategoryId
-  );
+const SuggestedProducts = ({productCategoryId, productId}) => {
 
-  let products;
-    if (data) {
-        products = data[0].attributes.products.data.filter(
-            ({id}) => {
-                return id != productId
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    (
+      async () => {
+        try {
+          setLoading(true)
+          const categoriesArr = await client.fetch(`*[_type == 'category']{
+            title,
+            _id,
+          }`)
+          const categoryId = categoriesArr.find(category => category.title == productCategoryId)._id
+          const productsArr = await client.fetch(`*[_type == 'product' && category._ref == '${categoryId}' && productId.current != '${productId}' ]{
+            title,
+            description,
+            price,
+            images,
+            productId,
+            category->{
+              title,
             }
-        )
-    }
+          }`)
+          console.log(productsArr, 'productsArrrr')
+          setProducts(productsArr)
+        } catch (error) {
+          console.log(error)
+          setError(error?.message || error)
+        } finally {
+          setLoading(false)
+        }
+      }
+    )()
+  }, [productCategoryId])
+
 
     if (loading) {
         return (
@@ -39,23 +65,17 @@ const SuggestedProducts = ({productCategoryId, productId, baseUrl}) => {
   return (
       <>
       {
-        products &&
-        <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
-            {products.map(
-            ({ id, attributes: { title, price, images } }) => {
-                return (
-                <ProductCard
-                    img_url={formatImageUrl(baseUrl, images.data[0].attributes.url)}
-                    title={title}
-                    price={price}
-                    productId={id}
-                    categoryId={productCategoryId}
-                    key={id}
-                />
-                );
+      <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
+        {
+          products?.map(
+            ({ productId, title, price, images }) => {
+              return <ProductCard
+                img_url={urlFor(images[0].asset).url()}
+                title={title} price={price} productId={productId?.current} categoryId={productCategoryId} key={productId} />
             }
-            )}
-        </Box>
+          )
+        }
+      </Box>
       }
       </>
   )
