@@ -31,7 +31,6 @@ const SuggestedProducts = ({productCategoryId, productId}) => {
               title,
             }
           }`)
-          console.log(productsArr, 'productsArrrr')
           setProducts(productsArr)
         } catch (error) {
           console.log(error)

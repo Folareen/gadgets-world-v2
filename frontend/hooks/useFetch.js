@@ -8,7 +8,6 @@ const useFetch = (query, dependencies) => {
 
     useEffect(() => {
         setError('')
-        console.log(query)
         setLoading(true)
         client.fetch(query).then((data) => {
             setData(data)

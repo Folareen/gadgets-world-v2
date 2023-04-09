@@ -29,8 +29,6 @@ export const getServerSideProps = async () => {
     }
   }`)
 
-  console.log(products)
-
   return {
     props: {
       trendingProducts: products,

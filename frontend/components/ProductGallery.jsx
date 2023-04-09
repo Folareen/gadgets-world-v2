@@ -6,8 +6,6 @@ import formatImageUrl from "../utils/formatImageUrl"
 const ProductGallery = ({images}) => {
     const [imageInView, setImageInView] = useState(images && urlFor(images[0]?.asset)?.url())
 
-    console.log(images)
-
   return (
     <Box sx={{ p: 2, width: {sx: '100%', md: '500px'}}}>
 

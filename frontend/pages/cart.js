@@ -76,7 +76,6 @@ const Cart = ({ baseUrl }) => {
         <>
           {state?.products.map(
             ({ image, title, price, quantity, productId }) => {
-              console.log(image, 'imageeee')
               return (
                 <Box
                   sx={{

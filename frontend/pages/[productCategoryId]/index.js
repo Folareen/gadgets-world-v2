@@ -8,9 +8,6 @@ import { useState } from "react";
 
 const Category = ({ productCategoryId }) => {
 
-
-  // console.log(productCategoryId, 'productCategoryId')
-
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -35,7 +32,6 @@ const Category = ({ productCategoryId }) => {
               title,
             }
           }`)
-          console.log(productsArr, 'productsArrrr')
           setProducts(productsArr)
         } catch (error) {
           console.log(error)
@@ -63,8 +59,6 @@ const Category = ({ productCategoryId }) => {
       </Box>
     );
   }
-
-  console.log(error, 'errrorrrr')
 
   if (error) {
     <Typography sx={{ color: "danger.main" }}>Error Occurred...</Typography>;

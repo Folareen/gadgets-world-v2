@@ -13,39 +13,6 @@ const Product = () => {
     query: { productId, productCategoryId },
     back,
   } = useRouter();
-  console.log(productId, 'productIdddd')
-
-  // useEffect(() => {
-  //   (
-  //     async () => {
-  //       try {
-  //         setLoading(true)
-  //         const categoriesArr = await client.fetch(`*[_type == 'category']{
-  //           title,
-  //           _id,
-  //         }`)
-  //         const categoryId = categoriesArr.find(category => category.title == productCategoryId)._id
-  //         const productsArr = await client.fetch(`*[_type == 'product' && category._ref == '${categoryId}' ]{
-  //           title,
-  //           description,
-  //           price,
-  //           images,
-  //           productId,
-  //           category->{
-  //             title,
-  //           }
-  //         }`)
-  //         console.log(productsArr)
-  //         setProducts(productsArr)
-  //       } catch (error) {
-  //         console.log(error)
-  //         setError(error?.message || error)
-  //       } finally {
-  //         setLoading(false)
-  //       }
-  //     }
-  //   )()
-  // }, [])
 
 
   const { data, loading, error } = useFetch(
@@ -62,7 +29,6 @@ const Product = () => {
     [productId]
   );
 
-  // console.log(data[0]?.images, 'datataaaaaaaaat')
 
   if (loading) {
     return (
@@ -145,11 +111,3 @@ const Product = () => {
 };
 
 export default Product
-
-// export const getStaticProps = async ({ params }) => {
-//   return {
-//     props: {
-//       productId: params.productId,
-//     },
-//   };
-// };
