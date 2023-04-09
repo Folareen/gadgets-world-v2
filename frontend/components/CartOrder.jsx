@@ -7,6 +7,9 @@ import { toast } from "react-toastify";
 import { addProduct, removeProduct } from "../features/cartSlice";
 
 const CartOrder = ({ image, title, price, productId }) => {
+
+  console.log(image, 'image in cartorder component')
+
   const state = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 

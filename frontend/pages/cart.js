@@ -11,6 +11,7 @@ import ProductionQuantityLimitsRoundedIcon from "@mui/icons-material/ProductionQ
 import { clearCart } from "../features/cartSlice";
 import { toast } from "react-toastify";
 
+
 const Cart = ({ baseUrl }) => {
   const state = useSelector((state) => state.cart);
   const { back, push } = useRouter();
@@ -75,6 +76,7 @@ const Cart = ({ baseUrl }) => {
         <>
           {state?.products.map(
             ({ image, title, price, quantity, productId }) => {
+              console.log(image, 'imageeee')
               return (
                 <Box
                   sx={{
@@ -98,7 +100,7 @@ const Cart = ({ baseUrl }) => {
                     }}
                   >
                     <img
-                      src={formatImageUrl(baseUrl, image)}
+                      src={image}
                       style={{
                         width: "100%",
                         height: "100%",

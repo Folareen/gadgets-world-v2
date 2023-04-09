@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material"
+import { urlFor } from "../client"
 import Order from "./Order"
 
 const ProductDetails = ({productDetails}) => {
@@ -17,7 +18,7 @@ const ProductDetails = ({productDetails}) => {
             ${productDetails?.price}
         </Typography>
 
-        <Order title={productDetails?.title} price={productDetails?.price} image={productDetails?.image} productId={productDetails?.productId?.current} showBuyNow={true} />
+        <Order title={productDetails?.title} price={productDetails?.price} image={productDetails?.images[0]?.asset && urlFor(productDetails?.images[0]?.asset)?.url()} productId={productDetails?.productId?.current} showBuyNow={true} />
     </Box>
   )
 }
