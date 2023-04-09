@@ -51,9 +51,7 @@ const Search = () => {
         setShowFilterBox(false)
         dispatch(startSearch())
         try {
-            console.log(query, 'query')
             const response = await client.fetch(query)
-            console.log(response, 'response')
             dispatch(displayResult(response))
         }
         catch (error) {
@@ -64,7 +62,6 @@ const Search = () => {
 
     const handleSearch = () => {
         setShowFilterBox(false)
-        console.log(filters.category, 'filters.category')
         if (filters.category || filters.priceRange.min || filters.priceRange.max) {
             search(`*[_type == 'product' ${filters.category ? `&& category._ref == '${filters.category}'` : ''} ${searchTerm ? `&& title match '${searchTerm}'` : ''} ${filters.priceRange.min ? `&& price >= ${filters.priceRange.min}` : ''} ${filters.priceRange.max ? `&& price <= ${filters.priceRange.max}` : ''} ]{
             title,
