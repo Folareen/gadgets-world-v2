@@ -1,5 +1,6 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
+import { urlFor } from "../client";
 import ProductCard from "../components/ProductCard";
 import formatImageUrl from "../utils/formatImageUrl";
 
@@ -30,23 +31,15 @@ const Search = () => {
   if (searchData.length) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
-        {searchData.map(
-          ({ id, attributes: { category, title, price, images } }) => {
-            return (
-              <ProductCard
-                img_url={formatImageUrl(
-                  "https://gadgets-world.up.railway.app",
-                  images.data[0].attributes.url
-                )}
-                title={title}
-                price={price}
-                productId={id}
-                categoryId={category.data.attributes.name}
-                key={id}
-              />
-            );
-          }
-        )}
+        {
+          searchData?.map(
+            ({ productId, title, price, images, category }) => {
+              return <ProductCard
+                img_url={urlFor(images[0].asset).url()}
+                title={title} price={price} productId={productId?.current} categoryId={category.title} key={productId?.current} />
+            }
+          )
+        }
       </Box>
     );
   }
