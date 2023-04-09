@@ -34,20 +34,6 @@ const Search = () => {
 
     const search = async (query) => {
 
-        //         client.fetch(`*[_type == "property" && property_location._ref == "${_property_location._id}" && property_type._ref == "${_property_type._id}"  ${budgetFilter.min ? `&& price >= ${budgetFilter.min}` : ''} ${budgetFilter.max ? `&& price <= ${budgetFilter.max}` : ''}  ]{
-
-        //           const productsArr = await client.fetch(`*[_type == 'product' && category._ref == '${categoryId}' ]{
-        //     title,
-        //     description,
-        //     price,
-        //     images,
-        //     productId,
-        //     category->{
-        //       title,
-        //     }
-        //   }`)
-
-
         setShowFilterBox(false)
         dispatch(startSearch())
         try {
@@ -166,11 +152,19 @@ const Search = () => {
                             id="outlined-number"
                             label="Min"
                             type="number"
+                            value={filters.priceRange.min}
+                            onChange={(e) => {
+                                setFilters({ ...filters, priceRange: { ...filters.priceRange, min: e.target.value } })
+                            }}
                         />
                         <TextField
                             id="outlined-number"
                             label="Max"
                             type="number"
+                            value={filters.priceRange.max}
+                            onChange={(e) => {
+                                setFilters({ ...filters, priceRange: { ...filters.priceRange, max: e.target.value } })
+                            }}
                             sx={{ ml: 2 }}
                         />
 
