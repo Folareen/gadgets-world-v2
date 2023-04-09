@@ -70,7 +70,7 @@ const SuggestedProducts = ({productCategoryId, productId}) => {
             ({ productId, title, price, images }) => {
               return <ProductCard
                 img_url={urlFor(images[0].asset).url()}
-                title={title} price={price} productId={productId?.current} categoryId={productCategoryId} key={productId} />
+                title={title} price={price} productId={productId?.current} categoryId={productCategoryId} key={productId?.current} />
             }
           )
         }
